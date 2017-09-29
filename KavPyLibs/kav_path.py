@@ -1,4 +1,5 @@
-__version__ = '1.0.0'
+"""Модуль работы с путями из KavPyLibs"""
+__version__ = '1.0.1'
 
 import os
 import fnmatch
@@ -6,8 +7,10 @@ import logging
 
 
 class KavPath:
+    """Класс работы с путями"""
+
     @staticmethod
-    def is_network_directory(directory_path=""):
+    def is_network_directory(directory_path: str = "") -> bool:
         """Определение, является ли путь сетевой папкой
 
         @param directory_path: Путь к каталогу
@@ -27,7 +30,7 @@ class KavPath:
         return is_netdir
 
     @staticmethod
-    def list_files(directory: str, patterns: list, logger: logging.RootLogger, case_sensitive: bool= False) -> list:
+    def list_files(directory: str, patterns: list, logger: logging.RootLogger, case_sensitive: bool = False) -> list:
         """Получение списка имен файлов в каталоге с требуемым расширением. Выводятся только имена файлов
          с расширениями без путей к файлам.
 
