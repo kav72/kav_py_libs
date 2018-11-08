@@ -1,5 +1,5 @@
 """Модуль работы с путями из KavPyLibs"""
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 
 import os
 import fnmatch
@@ -30,7 +30,7 @@ class KavPath:
         return is_netdir
 
     @staticmethod
-    def list_files(directory: str, patterns: list, logger: logging.RootLogger, case_sensitive: bool = False) -> list:
+    def list_files(directory: str, patterns: list, logger: logging.Logger, case_sensitive: bool = False) -> list:
         """Получение списка имен файлов в каталоге с требуемым расширением. Выводятся только имена файлов
          с расширениями без путей к файлам.
 

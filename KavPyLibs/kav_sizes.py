@@ -1,6 +1,6 @@
 """Модуль работы с единицами измерения из KavPyLibs"""
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 from enum import Enum
 import logging
@@ -97,7 +97,7 @@ class Sizes:
 class FileSizes(Sizes):
     """Класс размеров файлов"""
 
-    def __init__(self, value: float, file_dimension, logger: logging.RootLogger = None):
+    def __init__(self, value: float, file_dimension, logger: logging.Logger = None):
         """
         Конструктор
         :param value: Значение размера файла
@@ -147,7 +147,7 @@ class FileSizes(Sizes):
         return file_size
 
     @staticmethod
-    def get_from_str(stroke: str, file_dimension_system: FileDimensionSystems, logger: logging.RootLogger = None):
+    def get_from_str(stroke: str, file_dimension_system: FileDimensionSystems, logger: logging.Logger = None):
         """Получение размера файла из количества байт
             @param stroke: Строка с размером файла
             @param file_dimension_system: Система именования размеров файлов

@@ -1,5 +1,5 @@
 """Модуль протоколирования из KavPyLibs"""
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 
 import logging
 from logging.handlers import RotatingFileHandler
@@ -32,7 +32,7 @@ class KavLog:
 
     @staticmethod
     def get_logger(filename: str = 'log.txt', log_level=DEBUG, file_size: str = '10MiB', backup_count: int = 2)\
-            -> logging.RootLogger:
+            -> logging.Logger:
         """Инициализация логгера с применением Formatter. Настройка вывода в файл и на экран
 
                 @param filename: Путь к log-файлу
@@ -40,7 +40,7 @@ class KavLog:
                 @param file_size: Размер log-файла в системе IEC
                 @param backup_count: Количество файлов предыдущих протоколов
 
-                @rtype: logging.RootLogger
+                @rtype: logging.Logger
 
         """
         # Конвертируем file_size из строковой записи в размер файла

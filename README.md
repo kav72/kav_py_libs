@@ -1,1 +1,1 @@
-KavPyLibs v.1.1.0
+KavPyLibs v.1.1.1
