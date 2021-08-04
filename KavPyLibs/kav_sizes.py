@@ -1,6 +1,6 @@
 """Модуль работы с единицами измерения из KavPyLibs"""
 
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 
 from enum import Enum
 import logging
@@ -8,18 +8,24 @@ import logging
 
 class FileDimensionSystems(Enum):
     """Допустимые системы именований размеров файлов"""
+
     CI = 0
     IEC = 1
     JEDEC = 2
 
     @classmethod
     def get_default(cls):
-        """Получение значения по-умолчанию"""
+        """
+        Получение значения по-умолчанию
+
+        :return: IEC
+        """
         return cls.IEC
 
 
 class FileDimensionCI(Enum):
     """Измерение фалов в системе СИ"""
+
     # Значения = степень, в которую будет возводиться 1000
     B = 0  # byte
     kB = 1  # kilobyte
@@ -33,17 +39,26 @@ class FileDimensionCI(Enum):
 
     @staticmethod
     def get_base() -> int:
-        """Получение основания"""
+        """
+        Получение основания
+
+        :return: 1000
+        """
         return 1000
 
     @classmethod
     def get_default(cls):
-        """Получение значения по-умолчанию"""
+        """
+        Получение значения по-умолчанию
+
+        :return: MB
+        """
         return cls.MB
 
 
 class FileDimensionIEC(Enum):
     """Измерение фалов в системе IEC"""
+
     # Значения = степень, в которую будет возводиться 1024
     B = 0  # byte
     KiB = 1  # kibibyte
@@ -57,17 +72,26 @@ class FileDimensionIEC(Enum):
 
     @staticmethod
     def get_base() -> int:
-        """Получение основания"""
+        """
+        Получение основания
+
+        :return: 1024
+        """
         return 1024
 
     @classmethod
     def get_default(cls):
-        """Получение значения по-умолчанию"""
+        """
+        Получение значения по-умолчанию
+
+        :return: MiB
+        """
         return cls.MiB
 
 
 class FileDimensionJEDEC(Enum):
     """Измерение фалов в системе JEDEC"""
+
     # Значения = степень, в которую будет возводиться 1024
     B = 0  # byte
     KB = 1  # kilobyte
@@ -76,21 +100,35 @@ class FileDimensionJEDEC(Enum):
 
     @staticmethod
     def get_base() -> int:
-        """Получение основания"""
+        """
+        Получение основания
+
+        :return: 1024
+        """
         return 1024
 
     @classmethod
     def get_default(cls):
-        """Получение значения по-умолчанию"""
+        """
+        Получение значения по-умолчанию
+
+        :return: MB
+        """
         return cls.MB
 
 
 class Sizes:
     """Базовый класс размеров"""
+
     # Значение
     value = 1.0
 
     def __init__(self, value: float = 1.0):
+        """
+        Конструктор
+
+        :param value: Значение размера
+        """
         self.value = value
 
 
@@ -100,9 +138,11 @@ class FileSizes(Sizes):
     def __init__(self, value: float, file_dimension, logger: logging.Logger = None):
         """
         Конструктор
+
         :param value: Значение размера файла
         :param file_dimension: Измерение файла (type=FileDimensionCI|FileDimensionIEC|FileDimensionJEDEC)
         :param logger: logger из kav_logging
+        :return:
         """
         super(FileSizes, self).__init__(value=value)
         self.value = value
@@ -112,17 +152,21 @@ class FileSizes(Sizes):
         self._logger = logger
 
     def get_bytes(self):
-        """Преобразование размера файла в количество байт"""
+        """
+        Преобразование размера файла в количество байт
+
+        :return: Размер в байтах
+        """
         return self.value * (self.file_dimension.get_base() ** self._exponent)
 
     @staticmethod
     def get_from_bytes(size: int, file_dimension_system: FileDimensionSystems):
-        """Получение размера файла из количества байт
-            @param size: Размер файла в байтах
-            @param file_dimension_system: Система именования размеров файлов
+        """
+        Получение размера файла из количества байт
 
-            @rtype: FileSizes
-
+        :param size: Размер файла в байтах
+        :param file_dimension_system: Система именования размеров файлов
+        :return: FileSizes
         """
         file_dimension_class = FileSizes.get_file_dimension(file_dimension_system)
 
@@ -148,13 +192,13 @@ class FileSizes(Sizes):
 
     @staticmethod
     def get_from_str(stroke: str, file_dimension_system: FileDimensionSystems, logger: logging.Logger = None):
-        """Получение размера файла из количества байт
-            @param stroke: Строка с размером файла
-            @param file_dimension_system: Система именования размеров файлов
-            @param logger: logger из kav_logging
+        """
+        Получение размера файла из количества байт
 
-            @rtype: FileSizes
-
+        :param stroke: Строка с размером файла
+        :param file_dimension_system: Система именования размеров файлов
+        :param logger: logger из kav_logging
+        :return: FileSizes
         """
         i = len(stroke) - 1
         while i >= 0 and stroke[i].isalpha():
@@ -184,7 +228,12 @@ class FileSizes(Sizes):
 
     @staticmethod
     def get_file_dimension(file_dimension_system: FileDimensionSystems):
-        """Получаем класс системы именования размеров файлов"""
+        """
+        Получаем класс системы именования размеров файлов
+
+        :param file_dimension_system: Система единиц измерения
+        :return: Класс системы измерения
+        """
         if file_dimension_system.value == 0:
             return FileDimensionCI
         elif file_dimension_system.value == 1:
@@ -193,9 +242,10 @@ class FileSizes(Sizes):
             return FileDimensionJEDEC
 
     def __str__(self, precision=2) -> str:
-        """Вывод размера файлов в строку
-            @param precision: Точность
+        """
+        Вывод размера файлов в строку
 
-            @rtype: str
+        :param precision: Точность
+        :return: Размер в строковом представлении
         """
         return "%.*f%s" % (precision, self.value, self.file_dimension.name)
