@@ -72,7 +72,7 @@ class KavPath:
         Для Windows - в Appdata\Roaming\<app_name>
         Для Linux - в ~/.config/<app_name>
 
-        :param app_name:
+        :param app_name: Имя приложения
         :return: Путь к каталогу настроек
         """
         # Преобразуем имя приложения согласно стандарта ОС
